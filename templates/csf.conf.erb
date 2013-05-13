@@ -121,7 +121,7 @@ DNS_STRICT_NS = "0"
 # entries (i.e. the ones at the top) will be removed and the latest is added.
 # The limit is only checked when using csf -d (which is what lfd also uses)
 # Set to 0 to disable limiting
-DENY_IP_LIMIT = "200"
+DENY_IP_LIMIT = "100"
 
 # Limit the number of IP's kept in the temprary IP ban list. If the limit is
 # reached the oldest IP's in the ban list will be removed and allowed
@@ -426,7 +426,7 @@ X_ARF_TO = ""
 # Set LF_PERMBLOCK to "0" to disable this feature
 LF_PERMBLOCK = "1"
 LF_PERMBLOCK_INTERVAL = "86400"
-LF_PERMBLOCK_COUNT = "4"
+LF_PERMBLOCK_COUNT = "5"
 LF_PERMBLOCK_ALERT = "1"
 
 # Permanently block IPs by network class. The following enables this feature
@@ -444,7 +444,7 @@ LF_PERMBLOCK_ALERT = "1"
 # Set LF_NETBLOCK to "0" to disable this feature
 LF_NETBLOCK = "0"
 LF_NETBLOCK_INTERVAL = "86400"
-LF_NETBLOCK_COUNT = "4"
+LF_NETBLOCK_COUNT = "5"
 LF_NETBLOCK_CLASS = "C"
 LF_NETBLOCK_ALERT = "1"
 
@@ -666,7 +666,7 @@ LF_TRIGGER = "0"
 #
 # If LF_TRIGGER is "0", then the application LF_[application]_PERM value works
 # in the same way as above and LF_TRIGGER_PERM serves no function
-LF_TRIGGER_PERM = "1"
+LF_TRIGGER_PERM = "3600"
 
 # To only block access to the failed application instead of a complete block
 # for an ip address, you can set the following to "1", but LF_TRIGGER must be
@@ -674,7 +674,7 @@ LF_TRIGGER_PERM = "1"
 LF_SELECT = "0"
 
 # Send an email alert if an IP address is blocked by one of the [*] triggers
-LF_EMAIL_ALERT = "1"
+LF_EMAIL_ALERT = "<% lf_email_alert %>"
 
 # [*]Enable login failure detection of sshd connections
 LF_SSHD = "5"
@@ -737,14 +737,14 @@ LF_QOS = "0"
 LF_QOS_PERM = "1"
 
 # Send an email alert if anyone logs in successfully using SSH
-LF_SSH_EMAIL_ALERT = "1"
+LF_SSH_EMAIL_ALERT = "<% lf_ssh_email_alert %>"
 
 # Send an email alert if anyone uses su to access another account. This will
 # send an email alert whether the attempt to use su was successful or not
-LF_SU_EMAIL_ALERT = "1"
+LF_SU_EMAIL_ALERT = "<% lf_su_email_alert %>"
 
 # Send an email alert if anyone logs in successfully to root on the console
-LF_CONSOLE_EMAIL_ALERT = "1"
+LF_CONSOLE_EMAIL_ALERT = "<% lf_console_email_alert %>"
 
 # This option will keep track of the number of "File does not exist" errors in
 # HTACCESS_LOG. If the number of hits is more than LF_APACHE_404 in LF_INTERVAL
@@ -971,7 +971,7 @@ LT_IMAPD = "0"
 
 # Send an email alert if an account exceeds LT_POP3D/LT_IMAPD logins per hour
 # per IP
-LT_EMAIL_ALERT = "1"
+LT_EMAIL_ALERT = "<% lt_email_alert %>"
 
 # If LF_PERMBLOCK is enabled but you do not want this to apply to
 # LT_POP3D/LT_IMAPD, then enable this option
@@ -993,14 +993,14 @@ LT_SKIPPERMBLOCK = "0"
 # be around 300.
 #
 # To disable this feature, set this to 0
-CT_LIMIT = "0"
+CT_LIMIT = "200"
 
 # Connection Tracking interval. Set this to the the number of seconds between
 # connection tracking scans
 CT_INTERVAL = "30"
 
 # Send an email alert if an IP address is blocked due to connection tracking
-CT_EMAIL_ALERT = "1"
+CT_EMAIL_ALERT = "<% ct_email_alert %>"
 
 # If you want to make IP blocks permanent then set this to 1, otherwise blocks
 # will be temporary and will be cleared after CT_BLOCK_TIME seconds
@@ -1197,7 +1197,7 @@ PS_BLOCK_TIME = "3600"
 
 # Set the following to "1" to enable Port Scan Tracking email alerts, set to
 # "0" to disable them
-PS_EMAIL_ALERT = "1"
+PS_EMAIL_ALERT = "<% ps_email_alert %>"
 
 ###############################################################################
 # SECTION:Account Tracking

@@ -6,16 +6,15 @@ class docsf (
 
   $user = 'csf',
   $etcuser = 'root',
+  $puppet_master = '',
   
   # variables used for template substitution
   
   $testing = '0',
-  $tcp_in = '80,443,8139,15022',
-  # ftp (21) for yum, ssh (22), smtp (25), web (80, 443), squid proxy (3128), puppet (8139,8140), non-std ssh (15022)
-  # temporarily including 522 and 15422, remove when testbed/miata svn deprecated
-  $tcp_out = '21,22,25,80,443,3128,8139,8140,15022,522,15422',
-  $udp_in = '',
-  $udp_out = '123',
+  $tcp_in = '20,21,22,25,53,80,110,143,161,443,465,587,878,993,995,2222,5666',
+  $tcp_out = '20,21,22,25,53,80,110,113,143,161,443,2222,5353,5666',
+  $udp_in = '20,21,53',
+  $udp_out = '20,21,53,113,123',
   $syslog_check = '3600',
   $lf_alert_to = 'admin@example.com',
   $lf_alert_from = "lfd.csf.daemon@${::fqdn}",
@@ -27,6 +26,13 @@ class docsf (
   $messenger_text_in = '',
   $logscanner = 1,
   $logscanner_interval = 'daily',
+  $lf_email_alert = 1,
+  $lf_ssh_email_alert = 1,
+  $lf_su_email_alert = 1,
+  $lf_console_email_alert = 1,
+  $lt_email_alert = 1,
+  $ct_email_alert = 1,
+  $ps_email_alert = 1,
 
   # end of class arguments
   # ----------------------
@@ -101,6 +107,86 @@ class docsf (
     file { 'configure_csf_pignore':
       path => "/etc/csf/csf.pignore",
       content => template('docsf/csf.pignore.erb'),
+      mode => 0600,
+      owner => $etcuser,
+      group => $etcuser,
+      require => [User['create_user_csf'], Exec['install_csf']],
+    }
+    file { 'configure_csf_deny':
+      path => "/etc/csf/csf.deny",
+      content => template('docsf/csf.deny.erb'),
+      mode => 0600,
+      owner => $etcuser,
+      group => $etcuser,
+      require => [User['create_user_csf'], Exec['install_csf']],
+    }
+    file { 'configure_csf_dirwatch':
+      path => "/etc/csf/csf.dirwatch",
+      content => template('docsf/csf.dirwatch.erb'),
+      mode => 0600,
+      owner => $etcuser,
+      group => $etcuser,
+      require => [User['create_user_csf'], Exec['install_csf']],
+    }
+    file { 'configure_csf_pignore':
+      path => "/etc/csf/csf.pignore",
+      content => template('docsf/csf.pignore.erb'),
+      mode => 0600,
+      owner => $etcuser,
+      group => $etcuser,
+      require => [User['create_user_csf'], Exec['install_csf']],
+    }
+    file { 'configure_csf_fignore':
+      path => "/etc/csf/csf.fignore",
+      content => template('docsf/csf.fignore.erb'),
+      mode => 0600,
+      owner => $etcuser,
+      group => $etcuser,
+      require => [User['create_user_csf'], Exec['install_csf']],
+    }
+    file { 'configure_csf_ignore':
+      path => "/etc/csf/csf.ignore",
+      content => template('docsf/csf.ignore.erb'),
+      mode => 0600,
+      owner => $etcuser,
+      group => $etcuser,
+      require => [User['create_user_csf'], Exec['install_csf']],
+    }
+    file { 'configure_csf_logignore':
+      path => "/etc/csf/csf.logignore",
+      content => template('docsf/csf.logignore.erb'),
+      mode => 0600,
+      owner => $etcuser,
+      group => $etcuser,
+      require => [User['create_user_csf'], Exec['install_csf']],
+    }
+    file { 'configure_csf_mignore':
+      path => "/etc/csf/csf.mignore",
+      content => template('docsf/csf.mignore.erb'),
+      mode => 0600,
+      owner => $etcuser,
+      group => $etcuser,
+      require => [User['create_user_csf'], Exec['install_csf']],
+    }
+    file { 'configure_csf_rignore':
+      path => "/etc/csf/csf.rignore",
+      content => template('docsf/csf.rignore.erb'),
+      mode => 0600,
+      owner => $etcuser,
+      group => $etcuser,
+      require => [User['create_user_csf'], Exec['install_csf']],
+    }
+    file { 'configure_csf_signore':
+      path => "/etc/csf/csf.signore",
+      content => template('docsf/csf.signore.erb'),
+      mode => 0600,
+      owner => $etcuser,
+      group => $etcuser,
+      require => [User['create_user_csf'], Exec['install_csf']],
+    }
+    file { 'configure_csf_suignore':
+      path => "/etc/csf/csf.suignore",
+      content => template('docsf/csf.suignore.erb'),
       mode => 0600,
       owner => $etcuser,
       group => $etcuser,

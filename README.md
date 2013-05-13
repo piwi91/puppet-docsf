@@ -1,7 +1,7 @@
 puppet-docsf
 ============
 
-Configserver-firewall and maldet puppet config
+Puppet module CSF & LFD Configserver-firewall and maldet puppet config
 
 Gist came from:
 https://gist.github.com/2772865
@@ -9,6 +9,10 @@ https://github.com/apocas/puppet-cpanel
 
 Changlog
 --------
+
+2013-05-13
+
+  * Added more templates and configuration options csf.conf
 
 2013-05-09
 
