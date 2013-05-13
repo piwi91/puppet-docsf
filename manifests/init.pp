@@ -43,13 +43,29 @@ class docsf (
   case $operatingsystem {
     centos, redhat: {
       package { 'perl':
-        name => ['perl', 'perl-libwww-perl', 'perl-Time-HiRes'],
+        name => ['perl'],
+        ensure => 'present',
+      }
+      package { 'perl-Compress-Raw-Zlib':
+        name => ['perl-Compress-Raw-Zlib'],
+        ensure => 'present',
+      }
+      package { 'perl-libwww-perl':
+        name => ['perl-libwww-perl'],
         ensure => 'present',
       }
     }
     ubuntu, debian: {
       package { 'perl':
-        name => ['perl', 'libwww-perl', 'libtime-hires-perl'],
+        name => ['perl'],
+        ensure => 'present',
+      }
+      package { 'perl-Compress-Raw-Zlib':
+        name => ['perl-Compress-Raw-Zlib'],
+        ensure => 'present',
+      }
+      package { 'libwww-perl':
+        name => ['libwww-perl'],
         ensure => 'present',
       }
     }
@@ -112,25 +128,9 @@ class docsf (
       group => $etcuser,
       require => [User['create_user_csf'], Exec['install_csf']],
     }
-    file { 'configure_csf_deny':
-      path => "/etc/csf/csf.deny",
-      content => template('docsf/csf.deny.erb'),
-      mode => 0600,
-      owner => $etcuser,
-      group => $etcuser,
-      require => [User['create_user_csf'], Exec['install_csf']],
-    }
     file { 'configure_csf_dirwatch':
       path => "/etc/csf/csf.dirwatch",
       content => template('docsf/csf.dirwatch.erb'),
-      mode => 0600,
-      owner => $etcuser,
-      group => $etcuser,
-      require => [User['create_user_csf'], Exec['install_csf']],
-    }
-    file { 'configure_csf_pignore':
-      path => "/etc/csf/csf.pignore",
-      content => template('docsf/csf.pignore.erb'),
       mode => 0600,
       owner => $etcuser,
       group => $etcuser,
@@ -192,7 +192,22 @@ class docsf (
       group => $etcuser,
       require => [User['create_user_csf'], Exec['install_csf']],
     }
-
+      file { 'configure_csf_allow':
+        path => "/etc/csf/csf.allow",
+        content => template('docsf/csf.allow.erb'),
+        mode => 0600,
+        owner => $etcuser,
+        group => $etcuser,
+      require => [User['create_user_csf'], Exec['install_csf']],
+      }
+      file { 'configure_csf_deny':
+        path => "/etc/csf/csf.deny",
+        content => template('docsf/csf.deny.erb'),
+        mode => 0600,
+        owner => $etcuser,
+        group => $etcuser,
+      require => [User['create_user_csf'], Exec['install_csf']],
+      }
 
     # startup csf and lfd
     service { 'start_csf':
@@ -215,6 +230,97 @@ class docsf (
       require => Exec['install_csf'],
       logoutput => true,
     }
+  }else{
+      # configure csf using template
+      file { 'configure_csf':
+        path => "/etc/csf/csf.conf",
+        content => template('docsf/csf.conf.erb'),
+        mode => 0600,
+        owner => $etcuser,
+        group => $etcuser,
+      }
+      file { 'configure_csf_pignore':
+        path => "/etc/csf/csf.pignore",
+        content => template('docsf/csf.pignore.erb'),
+        mode => 0600,
+        owner => $etcuser,
+        group => $etcuser,
+      }
+      file { 'configure_csf_dirwatch':
+        path => "/etc/csf/csf.dirwatch",
+        content => template('docsf/csf.dirwatch.erb'),
+        mode => 0600,
+        owner => $etcuser,
+        group => $etcuser,
+      }
+      file { 'configure_csf_fignore':
+        path => "/etc/csf/csf.fignore",
+        content => template('docsf/csf.fignore.erb'),
+        mode => 0600,
+        owner => $etcuser,
+        group => $etcuser,
+      }
+      file { 'configure_csf_ignore':
+        path => "/etc/csf/csf.ignore",
+        content => template('docsf/csf.ignore.erb'),
+        mode => 0600,
+        owner => $etcuser,
+        group => $etcuser,
+      }
+      file { 'configure_csf_logignore':
+        path => "/etc/csf/csf.logignore",
+        content => template('docsf/csf.logignore.erb'),
+        mode => 0600,
+        owner => $etcuser,
+        group => $etcuser,
+      }
+      file { 'configure_csf_mignore':
+        path => "/etc/csf/csf.mignore",
+        content => template('docsf/csf.mignore.erb'),
+        mode => 0600,
+        owner => $etcuser,
+        group => $etcuser,
+      }
+      file { 'configure_csf_rignore':
+        path => "/etc/csf/csf.rignore",
+        content => template('docsf/csf.rignore.erb'),
+        mode => 0600,
+        owner => $etcuser,
+        group => $etcuser,
+      }
+      file { 'configure_csf_signore':
+        path => "/etc/csf/csf.signore",
+        content => template('docsf/csf.signore.erb'),
+        mode => 0600,
+        owner => $etcuser,
+        group => $etcuser,
+      }
+      file { 'configure_csf_suignore':
+        path => "/etc/csf/csf.suignore",
+        content => template('docsf/csf.suignore.erb'),
+        mode => 0600,
+        owner => $etcuser,
+        group => $etcuser,
+      }
+      file { 'configure_csf_allow':
+        path => "/etc/csf/csf.allow",
+        content => template('docsf/csf.allow.erb'),
+        mode => 0600,
+        owner => $etcuser,
+        group => $etcuser,
+      }
+      file { 'configure_csf_deny':
+        path => "/etc/csf/csf.deny",
+        content => template('docsf/csf.deny.erb'),
+        mode => 0600,
+        owner => $etcuser,
+        group => $etcuser,
+      }
+      exec { 'restart_csf':
+         command => 'csf -r',
+         path  => '/usr/sbin',
+         logoutput => true,
+      }
   }
   
   # install malware detection
